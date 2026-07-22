@@ -21,6 +21,9 @@ const userData = new mongoose.Schema({
         type : String,
         enum : ["CUSTOMER" , "ADMIN"],
         default : "CUSTOMER",
+    },
+    refresh_token : {
+        type : String,
     }
 } , {timestamps : true});
 
