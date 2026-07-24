@@ -12,4 +12,8 @@ router.get("/api/v1/order/all" , verifyToken , roleAccess("ADMIN") , Order.getMy
 
 router.patch("/api/v1/status/:id" , verifyToken , roleAccess("ADMIN") , Order.updateOrderStatusController);
 
+router.post("/api/v1/order/create/online" , verifyToken , Order.createOnlinePaymentController);
+
+router.post("/api/v1/order/verify/:orderId" , verifyToken , Order.verifyPaymentController);
+
 module.exports = router;

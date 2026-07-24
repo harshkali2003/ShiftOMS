@@ -33,7 +33,7 @@ const productData = new mongoose.Schema({
     stock : {
         type : Number,
         required : true,
-        min : 1,
+        min : 0,
     },
     stockMovementLog : [stockLog]
 } , {timestamps : true})

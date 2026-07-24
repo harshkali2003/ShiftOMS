@@ -1,6 +1,6 @@
-const { loginService, regsiterService } = require("./user.service");
+const { loginService, regsiterService, createRefreshTokenService } = require("./user.service");
 
-exports.loginController = (req,resp,next) => {
+exports.loginController = async (req,resp,next) => {
     try{
         const {email , phone_no , password} = req.body;
         if((!email && !phone_no) || !password){
@@ -9,12 +9,11 @@ exports.loginController = (req,resp,next) => {
 
         const identifier = email || phone_no;
 
-        const {access_token , refresh_token, user} = loginService(identifier , password).select(-password);
+        const {access_token , refresh_token} = loginService(identifier , password).select(-password);
 
         return resp.status(200).json({
             success : true,
             message : "Login successful",
-            data : user,
             token : access_token,
             refresh_token : refresh_token,
         })
@@ -23,7 +22,7 @@ exports.loginController = (req,resp,next) => {
     }
 }
 
-exports.registerController = (req,resp,next) => {
+exports.registerController = async (req,resp,next) => {
     try{
         const {name , email , phone_no , password} = req.body;
         if(!name || !email || !phone_no || !password){
@@ -36,6 +35,26 @@ exports.registerController = (req,resp,next) => {
             success : true,
             message : "Registration successful",
             data : user,
+        })
+    } catch(err){
+        return next(err);
+    }
+}
+
+exports.createRefreshTokenController = async (req , resp , next) => {
+    try{
+        const {token} = req.body;
+        if(!token){
+            throw new Error("Token is required");
+        }
+
+        const {access_token , refresh_token} = await createRefreshTokenService(token);
+
+        return resp.status(201).json({
+            success : true,
+            message : "Refresh token created",
+            access_token : access_token,
+            refresh_token : refresh_token,
         })
     } catch(err){
         return next(err);
