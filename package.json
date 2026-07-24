@@ -4,9 +4,9 @@
   "description": "order management system which handles order life cycle ",
   "license": "ISC",
   "author": "Harsh",
-  "type": "commonjs",
   "main": "app.js",
   "scripts": {
+    "start": "node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
@@ -21,3 +21,4 @@
     "razorpay": "^2.9.8"
   }
 }
+
