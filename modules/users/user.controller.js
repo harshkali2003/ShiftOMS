@@ -9,7 +9,7 @@ exports.loginController = async (req,resp,next) => {
 
         const identifier = email || phone_no;
 
-        const {access_token , refresh_token} = loginService(identifier , password);
+        const {access_token , refresh_token} = await loginService(identifier , password);
 
         return resp.status(200).json({
             success : true,
