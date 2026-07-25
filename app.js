@@ -17,7 +17,7 @@ const connectDB = require("./config/db.config");
 const seedAdmin = require("./utils/seedAdmin")
 
 const User = require("./modules/users/user.route");
-const Product = require("./modules/products/products.model");
+const Product = require("./modules/products/product.route");
 const Order = require("./modules/orders/orders.route");
 
 app.use("/user", User);
