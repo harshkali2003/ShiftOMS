@@ -11,8 +11,8 @@ exports.getAllProductController = async (req, resp, next) => {
     const filter = {};
     if (name) filter.name = name;
 
-    const pageNum = parseInt(page, Math.max(page, 1) || 1);
-    const limitNum = parseInt(limit, Math.max(limit, 10) || 10);
+    const pageNum = Math.max(parseInt(page, 10) || 1, 1);
+    const limitNum = Math.max(parseInt(limit, 10) || 10, 1);
     const skip = (pageNum - 1) * limitNum;
 
     const { count, products } = await getAllProductService(
