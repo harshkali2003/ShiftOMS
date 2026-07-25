@@ -9,13 +9,13 @@ exports.loginController = async (req,resp,next) => {
 
         const identifier = email || phone_no;
 
-        const {access_token , refresh_token} = loginService(identifier , password).select(-password);
+        const {access_token , refresh_token} = loginService(identifier , password);
 
         return resp.status(200).json({
             success : true,
             message : "Login successful",
-            token : access_token,
-            refresh_token : refresh_token,
+            access_token,
+            refresh_token,
         })
     } catch(err){
         return next(err);
