@@ -14,8 +14,8 @@ exports.loginController = async (req,resp,next) => {
         return resp.status(200).json({
             success : true,
             message : "Login successful",
-            access_token,
-            refresh_token,
+            access_token : access_token,
+            refresh_token : refresh_token,
         })
     } catch(err){
         return next(err);
