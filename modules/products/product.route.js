@@ -6,6 +6,6 @@ const { roleAccess, verifyToken } = require("../../common/middlewares/authorizat
 
 router.get("/api/v1/product" , Product.getAllProductController);
 router.post("/api/v1/create" , verifyToken , roleAccess("ADMIN") , Product.postProductController);
-router.patch("/api/v1/update" , verifyToken , roleAccess("ADMIN") , Product.updateProductController);
+router.patch("/api/v1/update/:id" , verifyToken , roleAccess("ADMIN") , Product.updateProductController);
 
 module.exports = router;
