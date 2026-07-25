@@ -24,6 +24,16 @@ app.use("/user", User);
 app.use("/product", Product);
 app.use("/order", Order);
 
+app.use((err, req, res, next) => {
+  console.error("ALERT 🚨:", err.stack); // This prints the exact error line to your terminal console
+
+  res.status(500).json({
+    success: false,
+    message: err.message || "Something went wrong on the server",
+  });
+});
+
+
 const PORT = process.env.PORT || 5000;
 
 const startServer = async () => {
