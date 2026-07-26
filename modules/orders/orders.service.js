@@ -86,7 +86,7 @@ exports.getAllOrderService = async (filter, skip, limit) => {
     throw new Error("No Order found");
   }
 
-  const count = await Order.find(filter);
+  const count = await Order.countDocuments(filter);
 
   return { count, orders };
 };
