@@ -66,8 +66,9 @@ exports.getAllOrderController = async (req, resp, next) => {
     if (orderStatus) filter.orderStatus = orderStatus;
     if (paymentStatus) filter.paymentStatus = paymentStatus;
 
-    const pageNum = parseInt(page, Math.max(page, 1) || 1);
-    const limitNum = parseInt(limit, Math.max(limit, 10) || 10);
+    const pageNum = Math.max(parseInt(page, 10) || 1, 1);
+    const limitNum = Math.max(parseInt(limit, 10) || 10, 1);
+
     const skip = (pageNum - 1) * limitNum;
 
     const { count, orders } = await getAllOrderService(filter, skip, limitNum);
