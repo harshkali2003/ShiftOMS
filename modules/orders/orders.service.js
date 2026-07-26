@@ -82,10 +82,6 @@ exports.getAllOrderService = async (filter, skip, limit) => {
     .limit(limit)
     .sort({ createdAt: -1 });
 
-  if (orders.length === 0) {
-    throw new Error("No Order found");
-  }
-
   const count = await Order.countDocuments(filter);
 
   return { count, orders };
