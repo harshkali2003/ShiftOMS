@@ -39,7 +39,8 @@ exports.postProductController = async (req, resp, next) => {
     if (
       !name ||
       !info ||
-      !actualPrice ||
+      actualPrice === undefined ||
+      actualPrice === null ||
       typeof actualPrice !== "number" ||
       actualPrice < 0 ||
       !stock ||
