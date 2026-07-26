@@ -65,7 +65,10 @@ exports.createOrderService = async (userId, items) => {
 };
 
 exports.getMyOrderService = async (userId) => {
-  const orders = await Order.find({ userId });
+  const orders = await Order.find({ userId }).populate(
+    "items.productId",
+    "name info actualPrice discountedPrice",
+  );
   if (orders.length === 0) {
     throw new Error("No Order found");
   }
