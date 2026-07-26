@@ -7,7 +7,9 @@ const {
 } = require("../../common/middlewares/authentication.middleware");
 
 exports.loginService = async (identifier, password) => {
-  const user = await User.findOne({ $or: [{ email : identifier }, { phone_no : identifier }] });
+  const user = await User.findOne({
+    $or: [{ email: identifier }, { phone_no: identifier }],
+  });
   if (!user) {
     throw new Error("No user found");
   }
@@ -17,11 +19,18 @@ exports.loginService = async (identifier, password) => {
     throw new Error("Invalid Password");
   }
 
-  const result = user.toObject();
-  delete result.password;
+  const payload = {
+    _id: user._id,
+    name: user.name,
+    email: user.email,
+    phone_no: user.phone_no,
+    role: user.role,
+  };
 
-  const access_token = generateAccessToken(result);
-  const refresh_token = generateRefreshToken(result);
+  const access_token = generateAccessToken(payload);
+  const refresh_token = generateRefreshToken({
+    _id: user._id,
+  });
 
   user.refresh_token = refresh_token;
   await user.save();
@@ -49,6 +58,7 @@ exports.regsiterService = async (name, email, phone_no, password) => {
 
 exports.createRefreshTokenService = async (token) => {
   let decoded;
+
   try {
     decoded = jwt.verify(token, process.env.JWT_REFRESH_KEY);
   } catch (error) {
@@ -56,22 +66,34 @@ exports.createRefreshTokenService = async (token) => {
   }
 
   const user = await User.findById(decoded._id);
+
   if (!user) {
     throw new Error("No user found associated with this token");
   }
 
-  if (user.refresh_token.toString() !== token.toString()) {
+  if (user.refresh_token !== token) {
     throw new Error("Token mismatched");
   }
 
-  const result = user.toObject();
-  delete result.password;
+  const payload = {
+    _id: user._id,
+    name: user.name,
+    email: user.email,
+    phone_no: user.phone_no,
+    role: user.role,
+  };
 
-  const access_token = generateAccessToken(result);
-  const refresh_token = generateRefreshToken(result);
+  const access_token = generateAccessToken(payload);
+
+  const refresh_token = generateRefreshToken({
+    _id: user._id,
+  });
 
   user.refresh_token = refresh_token;
   await user.save();
 
-  return { access_token, refresh_token };
+  return {
+    access_token,
+    refresh_token,
+  };
 };
